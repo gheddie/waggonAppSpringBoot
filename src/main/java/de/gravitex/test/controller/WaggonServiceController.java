@@ -27,6 +27,19 @@ public class WaggonServiceController {
 		System.out.println("movement  [waggon " + waggonMovement.getMovedWaggonNumber() + " moves to "
 				+ waggonMovement.getDestinationWaggonNumber() + "]");
 	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/traindata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Train>> trainData() {
+		
+		List<Train> trains = new ArrayList<Train>();
+		
+		trains.add(createTrain("T-A-123"));
+		trains.add(createTrain("T-A-234"));
+		trains.add(createTrain("T-A-345"));
+		
+		return new ResponseEntity<List<Train>>(trains, HttpStatus.OK);
+	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/waggondata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,6 +67,12 @@ public class WaggonServiceController {
 		System.out.println("succesfully got waggon data...");
 
 		return new ResponseEntity<Train>(train, HttpStatus.OK);
+	}
+	
+	private Train createTrain(String trainNumber) {
+		Train t = new Train();
+		t.setTrainNumber(trainNumber);
+		return t;
 	}
 	
 	private Waggon createWaggon(String waggonNumber) {
