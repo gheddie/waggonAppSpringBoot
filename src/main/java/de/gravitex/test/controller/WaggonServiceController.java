@@ -34,9 +34,9 @@ public class WaggonServiceController {
 		
 		List<Train> trains = new ArrayList<Train>();
 		
-		trains.add(createTrain("T-A-123"));
-		trains.add(createTrain("T-A-234"));
-		trains.add(createTrain("T-A-345"));
+		trains.add(createTrain("100"));
+		trains.add(createTrain("200"));
+		trains.add(createTrain("300"));
 		
 		return new ResponseEntity<List<Train>>(trains, HttpStatus.OK);
 	}
@@ -45,28 +45,55 @@ public class WaggonServiceController {
 	@RequestMapping(value = "/waggondata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Train> waggonData(@RequestParam String trainNumber) {
 
-		System.out.println("getting waggon data...");
+		System.out.println("getting waggon data for train: '"+trainNumber+"'...");
 
 		Train train = new Train();
 		train.setTrainNumber(trainNumber);
 
-		List<Waggon> waggons = new ArrayList<Waggon>();
-
-		waggons.add(createWaggon("W1"));
-		waggons.add(createWaggon("W2"));
-		waggons.add(createWaggon("W3"));
-		waggons.add(createWaggon("W4"));
-		waggons.add(createWaggon("W5"));
-		waggons.add(createWaggon("W6"));
-		waggons.add(createWaggon("W7"));
-		waggons.add(createWaggon("W8"));
-		waggons.add(createWaggon("W9"));
+		List<Waggon> waggons = createTrainWaggons(trainNumber);
 
 		train.setWaggons(waggons);
 
 		System.out.println("succesfully got waggon data...");
 
 		return new ResponseEntity<Train>(train, HttpStatus.OK);
+	}
+
+	private List<Waggon> createTrainWaggons(String trainNumber) {
+		
+		List<Waggon> waggons = new ArrayList<Waggon>();
+		
+		switch (trainNumber) {
+		case "100":
+			waggons.add(createWaggon("W100"));
+			waggons.add(createWaggon("W101"));
+			waggons.add(createWaggon("W102"));
+			waggons.add(createWaggon("W103"));
+			waggons.add(createWaggon("W104"));
+			waggons.add(createWaggon("W105"));
+			waggons.add(createWaggon("W106"));
+			waggons.add(createWaggon("W107"));
+			waggons.add(createWaggon("W108"));			
+			break;
+		case "200":
+			waggons.add(createWaggon("W200"));
+			waggons.add(createWaggon("W201"));
+			waggons.add(createWaggon("W202"));
+			waggons.add(createWaggon("W203"));
+			waggons.add(createWaggon("W204"));
+			break;
+		default:
+			waggons.add(createWaggon("W8000"));
+			waggons.add(createWaggon("W8001"));
+			waggons.add(createWaggon("W8002"));
+			waggons.add(createWaggon("W8003"));
+			waggons.add(createWaggon("W8004"));
+			waggons.add(createWaggon("W8005"));
+			waggons.add(createWaggon("W8006"));
+			break;
+		}
+
+		return waggons;
 	}
 	
 	private Train createTrain(String trainNumber) {
