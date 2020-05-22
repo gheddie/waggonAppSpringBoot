@@ -37,6 +37,7 @@ public class WaggonServiceController {
 		trains.add(createTrain("100"));
 		trains.add(createTrain("200"));
 		trains.add(createTrain("300"));
+		trains.add(createTrain("400"));
 		
 		return new ResponseEntity<List<Train>>(trains, HttpStatus.OK);
 	}
@@ -49,13 +50,9 @@ public class WaggonServiceController {
 
 		Train train = new Train();
 		train.setTrainNumber(trainNumber);
-
 		List<Waggon> waggons = createTrainWaggons(trainNumber);
-
 		train.setWaggons(waggons);
-
 		System.out.println("succesfully got waggon data...");
-
 		return new ResponseEntity<Train>(train, HttpStatus.OK);
 	}
 
