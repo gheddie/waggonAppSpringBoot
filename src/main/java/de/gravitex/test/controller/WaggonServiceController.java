@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.gravitex.test.entity.Train;
@@ -29,12 +30,12 @@ public class WaggonServiceController {
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/waggondata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Train> waggonData() {
+	public ResponseEntity<Train> waggonData(@RequestParam String trainNumber) {
 
 		System.out.println("getting waggon data...");
 
 		Train train = new Train();
-		train.setTrainNumber("T-XY-987-P-42");
+		train.setTrainNumber(trainNumber);
 
 		List<Waggon> waggons = new ArrayList<Waggon>();
 
