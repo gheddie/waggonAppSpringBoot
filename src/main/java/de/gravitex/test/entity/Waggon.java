@@ -6,4 +6,6 @@ import lombok.Data;
 public class Waggon {
 
 	private String waggonNumber;
+	
+	private WaggonType waggonType;
 }
