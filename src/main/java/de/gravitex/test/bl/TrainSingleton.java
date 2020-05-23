@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.gravitex.test.entity.Train;
+import de.gravitex.test.entity.TrainState;
 import de.gravitex.test.entity.Waggon;
 
 public class TrainSingleton {
@@ -18,9 +19,9 @@ public class TrainSingleton {
 	}
 
 	private void init() {
-		addTrain(createTrain("Train1", "W100", "W101", "W102"));
-		addTrain(createTrain("Train2", "W200", "W201", "W202", "W203", "W204"));
-		addTrain(createTrain("Train3", "W300", "W301"));
+		addTrain(createTrain(TrainState.READY_TO_GO, "Train1", "W100", "W101", "W102"));
+		addTrain(createTrain(TrainState.READY_TO_GO, "Train2", "W200", "W201", "W202", "W203", "W204"));
+		addTrain(createTrain(TrainState.GONE, "Train3", "W300", "W301"));
 	}
 
 	private void addTrain(Train train) {
@@ -34,21 +35,22 @@ public class TrainSingleton {
 		return instance;
 	}
 	
-	private Train createTrain(String trainNumber, String... waggonNumbers) {
-		Train t = new Train();
-		t.setTrainNumber(trainNumber);
+	private Train createTrain(TrainState trainState, String trainNumber, String... waggonNumbers) {
+		Train train = new Train();
+		train.setTrainNumber(trainNumber);
+		train.setTrainState(trainState);
 		List<Waggon> waggons = new ArrayList<Waggon>();
 		for (String waggonNumber : waggonNumbers) {
 			waggons.add(createWaggon(waggonNumber));
 		}
-		t.setWaggons(waggons);
-		return t;
+		train.setWaggons(waggons);
+		return train;
 	}
 	
 	private Waggon createWaggon(String waggonNumber) {
-		Waggon w = new Waggon();
-		w.setWaggonNumber(waggonNumber);
-		return w;
+		Waggon waggon = new Waggon();
+		waggon.setWaggonNumber(waggonNumber);
+		return waggon;
 	}
 
 	public List<Train> getTrains() {

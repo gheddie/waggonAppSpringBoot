@@ -9,5 +9,7 @@ public class Train {
 
 	private String trainNumber;
 	
+	private TrainState trainState;
+	
 	private List<Waggon> waggons;
 }
