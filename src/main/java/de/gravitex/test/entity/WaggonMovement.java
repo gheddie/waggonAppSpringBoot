@@ -7,5 +7,7 @@ public class WaggonMovement {
 
 	private String movedWaggonNumber;
 	
-	private String destinationWaggonNumber;
+	private String trainId;
+	
+	private String direction;
 }

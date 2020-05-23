@@ -23,8 +23,8 @@ public class WaggonServiceController {
 	@RequestMapping(value = "/moveWaggons", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void moveWaggons(@RequestBody WaggonMovement waggonMovement) {
 
-		System.out.println("movement  [waggon " + waggonMovement.getMovedWaggonNumber() + " moves to "
-				+ waggonMovement.getDestinationWaggonNumber() + "]");
+		System.out.println("movement  [waggon " + waggonMovement.getMovedWaggonNumber() + " from train "
+				+ waggonMovement.getTrainId() + " moves " + waggonMovement.getDirection() + ".]");
 	}
 	
 	@CrossOrigin(origins = "*")
