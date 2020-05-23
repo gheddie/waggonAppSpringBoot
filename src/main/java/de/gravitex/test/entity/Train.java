@@ -1,5 +1,6 @@
 package de.gravitex.test.entity;
 
+import java.util.Collections;
 import java.util.List;
 
 import lombok.Data;
@@ -12,4 +13,53 @@ public class Train {
 	private TrainState trainState;
 	
 	private List<Waggon> waggons;
+
+	public void moveWaggonForward(String waggonNumber) {
+		int index = waggonIndex(waggonNumber);
+		if (index == 0 || index == -1) {
+			return;
+		}
+		Collections.swap(waggons, index, index-1);
+	}
+
+	public void moveWaggonBackward(String waggonNumber) {
+		int index = waggonIndex(waggonNumber);
+		if (index == waggons.size() - 1 || index == -1) {
+			return;
+		}
+		Collections.swap(waggons, index, index+1);
+	}
+	
+	public void removeWaggon(String movedWaggonNumber) {
+		int index = waggonIndex(movedWaggonNumber);
+		if (index == -1) {
+			return;
+		}
+		waggons.remove(index);
+	}
+
+	private int waggonIndex(String waggonNumber) {
+		int index = 0;
+		for (Waggon waggon : waggons) {
+			if (waggonNumber.equals(waggon.getWaggonNumber())) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
+	}
+
+	public
+	String getWaggonListAsString() {
+		String result = "";
+		int index = 0;
+		for (Waggon waggon : waggons) {
+			result += waggon.getWaggonNumber();
+			if (index < waggons.size() - 1) {
+				result += "#";	
+			}
+			index++;
+		}
+		return result;
+	}
 }

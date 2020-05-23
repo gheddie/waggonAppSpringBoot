@@ -9,6 +9,7 @@ import de.gravitex.test.entity.Train;
 import de.gravitex.test.entity.TrainState;
 import de.gravitex.test.entity.Waggon;
 import de.gravitex.test.entity.WaggonType;
+import de.gravitex.test.util.TrainUtil;
 
 public class TrainSingleton {
 
@@ -22,7 +23,7 @@ public class TrainSingleton {
 
 	private void init() {
 
-		addTrain(createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
+		addTrain(TrainUtil.createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
 				WaggonDefinition.fromValues("W101", WaggonType.AVEX),
 				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
 				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
@@ -42,13 +43,13 @@ public class TrainSingleton {
 				WaggonDefinition.fromValues("W114", WaggonType.BVEX),
 				WaggonDefinition.fromValues("W115", WaggonType.BVEX)));
 
-		addTrain(createTrain(TrainState.READY_TO_GO, "Train2", WaggonDefinition.fromValues("W200", WaggonType.AVEX),
+		addTrain(TrainUtil.createTrain(TrainState.READY_TO_GO, "Train2", WaggonDefinition.fromValues("W200", WaggonType.AVEX),
 				WaggonDefinition.fromValues("W201", WaggonType.AVEX),
 				WaggonDefinition.fromValues("W202", WaggonType.BVEX),
 				WaggonDefinition.fromValues("W203", WaggonType.AVEX),
 				WaggonDefinition.fromValues("W204", WaggonType.CVEX)));
 
-		addTrain(createTrain(TrainState.GONE, "Train3", WaggonDefinition.fromValues("W300", WaggonType.AVEX),
+		addTrain(TrainUtil.createTrain(TrainState.GONE, "Train3", WaggonDefinition.fromValues("W300", WaggonType.AVEX),
 				WaggonDefinition.fromValues("W301", WaggonType.CVEX)));
 	}
 
@@ -61,25 +62,6 @@ public class TrainSingleton {
 			instance = new TrainSingleton();
 		}
 		return instance;
-	}
-
-	private Train createTrain(TrainState trainState, String trainNumber, WaggonDefinition... waggonDefinitions) {
-		Train train = new Train();
-		train.setTrainNumber(trainNumber);
-		train.setTrainState(trainState);
-		List<Waggon> waggons = new ArrayList<Waggon>();
-		for (WaggonDefinition waggonDefinition : waggonDefinitions) {
-			waggons.add(createWaggon(waggonDefinition.getWaggonType(), waggonDefinition.getWaggonNumber()));
-		}
-		train.setWaggons(waggons);
-		return train;
-	}
-
-	private Waggon createWaggon(WaggonType waggonType, String waggonNumber) {
-		Waggon waggon = new Waggon();
-		waggon.setWaggonNumber(waggonNumber);
-		waggon.setWaggonType(waggonType);
-		return waggon;
 	}
 
 	public List<Train> getTrains() {

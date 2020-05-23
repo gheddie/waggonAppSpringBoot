@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.gravitex.test.bl.TrainSingleton;
 import de.gravitex.test.entity.Train;
 import de.gravitex.test.entity.TrainEvent;
+import de.gravitex.test.entity.TrainState;
 import de.gravitex.test.entity.WaggonMovement;
 
 @RestController
@@ -26,6 +27,16 @@ public class WaggonServiceController {
 
 		System.out.println(
 				"received train action: train " + trainEvent.getTrainId() + ", action: " + trainEvent.getTrainAction());
+		switch (trainEvent.getTrainAction()) {
+		case "DEPARTURE":
+			System.out.println("departing train: " + trainEvent.getTrainId());
+			TrainSingleton.getInstance().getTrain(trainEvent.getTrainId()).setTrainState(TrainState.GONE);
+			break;
+		case "ARRIVAL":
+			System.out.println("arriving train: " + trainEvent.getTrainId());
+			TrainSingleton.getInstance().getTrain(trainEvent.getTrainId()).setTrainState(TrainState.ARRIVED);
+			break;
+		}
 	}
 
 	@CrossOrigin(origins = "*")
@@ -34,6 +45,24 @@ public class WaggonServiceController {
 
 		System.out.println("movement  [waggon " + waggonMovement.getMovedWaggonNumber() + " from train "
 				+ waggonMovement.getTrainId() + " moves " + waggonMovement.getDirection() + ".]");
+		
+		switch (waggonMovement.getDirection()) {
+		case "UP":
+			// forward
+			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
+					.moveWaggonForward(waggonMovement.getMovedWaggonNumber());
+			break;
+		case "DOWN":
+			// backward
+			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
+			.moveWaggonBackward(waggonMovement.getMovedWaggonNumber());
+			break;
+		case "REMOVE":
+			// backward
+			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
+			.removeWaggon(waggonMovement.getMovedWaggonNumber());
+			break;
+		}
 	}
 	
 	@CrossOrigin(origins = "*")
