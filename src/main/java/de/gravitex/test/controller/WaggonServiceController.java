@@ -55,12 +55,15 @@ public class WaggonServiceController {
 		case "DOWN":
 			// backward
 			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
-			.moveWaggonBackward(waggonMovement.getMovedWaggonNumber());
+					.moveWaggonBackward(waggonMovement.getMovedWaggonNumber());
 			break;
 		case "REMOVE":
-			// backward
 			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
-			.removeWaggon(waggonMovement.getMovedWaggonNumber());
+					.removeWaggon(waggonMovement.getMovedWaggonNumber());
+			break;
+		case "TOEND":
+			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
+					.moveWaggonToEnd(waggonMovement.getMovedWaggonNumber());
 			break;
 		}
 	}

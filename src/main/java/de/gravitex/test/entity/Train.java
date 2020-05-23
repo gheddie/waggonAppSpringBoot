@@ -30,12 +30,21 @@ public class Train {
 		Collections.swap(waggons, index, index+1);
 	}
 	
-	public void removeWaggon(String movedWaggonNumber) {
-		int index = waggonIndex(movedWaggonNumber);
+	public void removeWaggon(String waggonNumber) {
+		int index = waggonIndex(waggonNumber);
 		if (index == -1) {
 			return;
 		}
 		waggons.remove(index);
+	}
+	
+	public void moveWaggonToEnd(String waggonNumber) {
+		int index = waggonIndex(waggonNumber);
+		if (index == -1) {
+			return;
+		}
+		Waggon waggonForEnd = waggons.remove(index);
+		waggons.add(waggonForEnd);
 	}
 
 	private int waggonIndex(String waggonNumber) {

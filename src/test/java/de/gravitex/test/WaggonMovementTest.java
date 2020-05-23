@@ -82,4 +82,23 @@ public class WaggonMovementTest {
 		// nothing happened...
 		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
 	}
+	
+	@Test
+	public void testMoveWaggonToEnd() {
+
+		Train train = TrainUtil.createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
+				WaggonDefinition.fromValues("W101", WaggonType.AVEX),
+				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
+				WaggonDefinition.fromValues("W103", WaggonType.BVEX),
+				WaggonDefinition.fromValues("W104", WaggonType.BVEX));
+		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
+		
+		// non existing waggon (nothing hanppens)
+		train.moveWaggonToEnd("WXYZ");
+		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
+		
+		// existing waggon
+		train.moveWaggonToEnd("W102");
+		assertEquals("W100#W101#W103#W104#W102", train.getWaggonListAsString());
+	}
 }
