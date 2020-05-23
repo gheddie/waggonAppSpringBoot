@@ -14,10 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.gravitex.test.bl.TrainSingleton;
 import de.gravitex.test.entity.Train;
+import de.gravitex.test.entity.TrainEvent;
 import de.gravitex.test.entity.WaggonMovement;
 
 @RestController
 public class WaggonServiceController {
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/changeTrainState", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void changeTrainState(@RequestBody TrainEvent trainEvent) {
+
+		System.out.println(
+				"received train action: train " + trainEvent.getTrainId() + ", action: " + trainEvent.getTrainAction());
+	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/moveWaggons", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
