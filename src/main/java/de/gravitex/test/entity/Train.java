@@ -3,10 +3,11 @@ package de.gravitex.test.entity;
 import java.util.Collections;
 import java.util.List;
 
+import de.gravitex.test.util.TrainActionKey;
 import lombok.Data;
 
 @Data
-public class Train {
+public class Train implements RailItem {
 
 	private String trainNumber;
 	
@@ -70,5 +71,10 @@ public class Train {
 			index++;
 		}
 		return result;
+	}
+
+	@Override
+	public TrainActionKey generateKey(String action) {
+		return TrainActionKey.fromValues(trainNumber, null, action);
 	}
 }
