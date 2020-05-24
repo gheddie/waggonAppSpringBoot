@@ -8,6 +8,8 @@ public class Waggon implements RailItem {
 
 	private String waggonNumber;
 	
+	private String trainId;
+	
 	private WaggonType waggonType;
 
 	@Override

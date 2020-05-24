@@ -17,6 +17,7 @@ import de.gravitex.test.bl.TrainSingleton;
 import de.gravitex.test.entity.Train;
 import de.gravitex.test.entity.TrainEvent;
 import de.gravitex.test.entity.TrainState;
+import de.gravitex.test.entity.Waggon;
 import de.gravitex.test.entity.WaggonMovement;
 import de.gravitex.test.exception.TrainHandlingException;
 import de.gravitex.test.handler.TrainActionHandler;
@@ -99,17 +100,25 @@ public class WaggonServiceController {
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/traindata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Train>> trainData() {
+	public ResponseEntity<List<Train>> getTrainData() {
 		
 		return new ResponseEntity<List<Train>>(TrainSingleton.getInstance().getTrains(), HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/waggondata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Train> waggonData(@RequestParam String trainNumber) {
+	public ResponseEntity<Train> getWaggonData(@RequestParam String trainNumber) {
 
 		System.out.println("getting train: '"+trainNumber+"'...");		
 		return new ResponseEntity<Train>(TrainSingleton.getInstance().getTrain(trainNumber), HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/waggon", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> createWaggon(@RequestBody Waggon waggon) {
+		System.out.println("created: " + waggon);
+		TrainSingleton.getInstance().getTrain(waggon.getTrainId()).getWaggons().add(waggon);
+		return new ResponseEntity<String>(RESPONSE_OK, HttpStatus.OK);
 	}
 	
 	private void processTrainActionHandler(TrainActionKey trainActionKey) throws TrainHandlingException {
