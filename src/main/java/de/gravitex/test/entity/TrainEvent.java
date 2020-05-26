@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class TrainEvent {
 
-	private String trainId;
+	private Long trainId;
 	
 	private String trainAction;
 }

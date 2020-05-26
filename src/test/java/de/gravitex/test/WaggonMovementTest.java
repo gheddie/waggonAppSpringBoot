@@ -15,11 +15,12 @@ public class WaggonMovementTest {
 	@Test
 	public void testWaggonMovementForward() {
 		
-		Train train = TrainUtil.createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W101", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W103", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W104", WaggonType.BVEX));
+		Train train = TrainUtil.createTrain(null, TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues(null, "W100", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W101", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W102", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W103", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W104", WaggonType.BVEX, 0, 0, null));
+		
 		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
 		
 		train.moveWaggonForward("W104");
@@ -42,11 +43,12 @@ public class WaggonMovementTest {
 	@Test
 	public void testWaggonMovementBackward() {
 		
-		Train train = TrainUtil.createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W101", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W103", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W104", WaggonType.BVEX));
+		Train train = TrainUtil.createTrain(null, TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues(null, "W100", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W101", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W102", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W103", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W104", WaggonType.BVEX, 0, 0, null));
+		
 		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
 		
 		train.moveWaggonBackward("W100");
@@ -69,11 +71,12 @@ public class WaggonMovementTest {
 	@Test
 	public void testWaggonMovementInvalidWaggonNumber() {
 		
-		Train train = TrainUtil.createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W101", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W103", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W104", WaggonType.BVEX));
+		Train train = TrainUtil.createTrain(null, TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues(null, "W100", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W101", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W102", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W103", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W104", WaggonType.BVEX, 0, 0, null));
+		
 		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
 		
 		// not present...
@@ -86,11 +89,12 @@ public class WaggonMovementTest {
 	@Test
 	public void testMoveWaggonToEnd() {
 
-		Train train = TrainUtil.createTrain(TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues("W100", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W101", WaggonType.AVEX),
-				WaggonDefinition.fromValues("W102", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W103", WaggonType.BVEX),
-				WaggonDefinition.fromValues("W104", WaggonType.BVEX));
+		Train train = TrainUtil.createTrain(null, TrainState.READY_TO_GO, "Train1", WaggonDefinition.fromValues(null, "W100", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W101", WaggonType.AVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W102", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W103", WaggonType.BVEX, 0, 0, null),
+				WaggonDefinition.fromValues(null, "W104", WaggonType.BVEX, 0, 0, null));
+		
 		assertEquals("W100#W101#W102#W103#W104", train.getWaggonListAsString());
 		
 		// non existing waggon (nothing hanppens)

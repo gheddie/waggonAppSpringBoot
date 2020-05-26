@@ -1,19 +1,24 @@
 package de.gravitex.test.entity;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.gravitex.test.util.TrainActionKey;
 import lombok.Data;
 
 @Data
 public class Train implements RailItem {
+	
+	private Long trainId;
 
 	private String trainNumber;
 	
 	private TrainState trainState;
 	
-	private List<Waggon> waggons;
+	private List<Waggon> waggons = new ArrayList<Waggon>();
 
 	public void moveWaggonForward(String waggonNumber) {
 		int index = waggonIndex(waggonNumber);
@@ -59,8 +64,8 @@ public class Train implements RailItem {
 		return -1;
 	}
 
-	public
-	String getWaggonListAsString() {
+	@JsonIgnore
+	public String getWaggonListAsString() {
 		String result = "";
 		int index = 0;
 		for (Waggon waggon : waggons) {
@@ -76,5 +81,14 @@ public class Train implements RailItem {
 	@Override
 	public TrainActionKey generateKey(String action) {
 		return TrainActionKey.fromValues(trainNumber, null, action);
+	}
+
+	public Waggon getWaggon(Long waggonId) {
+		for (Waggon waggon : waggons) {
+			if (waggon.getWaggonId().equals(waggonId)) {
+				return waggon;
+			}
+		}
+		return null;
 	}
 }

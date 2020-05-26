@@ -18,7 +18,7 @@ import de.gravitex.test.entity.Train;
 import de.gravitex.test.entity.TrainEvent;
 import de.gravitex.test.entity.TrainState;
 import de.gravitex.test.entity.Waggon;
-import de.gravitex.test.entity.WaggonMovement;
+import de.gravitex.test.entity.WaggonManipulation;
 import de.gravitex.test.exception.TrainHandlingException;
 import de.gravitex.test.handler.TrainActionHandler;
 import de.gravitex.test.util.TrainActionKey;
@@ -68,28 +68,28 @@ public class WaggonServiceController {
 	}
 
 	@CrossOrigin(origins = "*")
-	@RequestMapping(value = "/moveWaggons", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> moveWaggons(@RequestBody WaggonMovement waggonMovement) {
+	@RequestMapping(value = "/moveWaggon", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> moveWaggon(@RequestBody WaggonManipulation waggonMovement) {
 
 		System.out.println("movement  [waggon " + waggonMovement.getMovedWaggonNumber() + " from train "
-				+ waggonMovement.getTrainId() + " moves " + waggonMovement.getDirection() + ".]");
+				+ waggonMovement.getTrainId() + " moves " + waggonMovement.getWaggonManipulationType() + ".]");
 		
-		switch (waggonMovement.getDirection()) {
-		case "UP":
+		switch (waggonMovement.getWaggonManipulationType()) {
+		case UP:
 			// forward
 			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
 					.moveWaggonForward(waggonMovement.getMovedWaggonNumber());
 			break;
-		case "DOWN":
+		case DOWN:
 			// backward
 			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
 					.moveWaggonBackward(waggonMovement.getMovedWaggonNumber());
 			break;
-		case "REMOVE":
+		case REMOVE:
 			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
 					.removeWaggon(waggonMovement.getMovedWaggonNumber());
 			break;
-		case "TOEND":
+		case TOEND:
 			TrainSingleton.getInstance().getTrain(waggonMovement.getTrainId())
 					.moveWaggonToEnd(waggonMovement.getMovedWaggonNumber());
 			break;
@@ -102,24 +102,34 @@ public class WaggonServiceController {
 	@RequestMapping(value = "/traindata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Train>> getTrainData() {
 		
-		return new ResponseEntity<List<Train>>(TrainSingleton.getInstance().getTrains(), HttpStatus.OK);
+		List<Train> trains = TrainSingleton.getInstance().getTrains();
+		return new ResponseEntity<List<Train>>(trains, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/waggondata", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Train> getWaggonData(@RequestParam String trainNumber) {
+	public ResponseEntity<Train> getWaggonData(@RequestParam Long trainId) {
 
-		System.out.println("getting train: '"+trainNumber+"'...");		
-		return new ResponseEntity<Train>(TrainSingleton.getInstance().getTrain(trainNumber), HttpStatus.OK);
+		System.out.println("getting train: '"+trainId+"'...");		
+		return new ResponseEntity<Train>(TrainSingleton.getInstance().getTrain(trainId), HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/waggon", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createWaggon(@RequestBody Waggon waggon) {
-		System.out.println("created: " + waggon);
-		TrainSingleton.getInstance().getTrain(waggon.getTrainId()).getWaggons().add(waggon);
-		return new ResponseEntity<String>(RESPONSE_OK, HttpStatus.OK);
+		
+		System.out.println("creating: " + waggon);
+		TrainSingleton instance = TrainSingleton.getInstance();
+		try {
+			instance.checkWaggon(waggon);
+			instance.getTrain(waggon.getTrainId()).getWaggons().add(waggon.getPosition(), waggon);
+			return new ResponseEntity<String>(RESPONSE_OK, HttpStatus.OK);
+		} catch (TrainHandlingException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
+	
+	// ---
 	
 	private void processTrainActionHandler(TrainActionKey trainActionKey) throws TrainHandlingException {
 		TrainActionHandler handler = actionHandlers.get(trainActionKey);
