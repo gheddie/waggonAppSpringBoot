@@ -64,7 +64,9 @@ public class TrainSingleton {
 		addWaggonDamage(new Long(14), "damage D1", DamageCode.D1);
 		
 		// Train 2
+		addWaggonDamage(new Long(18), "damage D1", DamageCode.D1);
 		addWaggonDamage(new Long(18), "damage D2", DamageCode.D2);
+		addWaggonDamage(new Long(18), "damage D3", DamageCode.D3);
 		addWaggonDamage(new Long(19), "damage D1", DamageCode.D1);
 		addWaggonDamage(new Long(20), "damage D2", DamageCode.D2);
 		
@@ -121,5 +123,17 @@ public class TrainSingleton {
 			}
 		}
 		return result;
+	}
+
+	public Waggon findWaggon(Long waggonId) {
+		System.out.println("finding waggon: " + waggonId);
+		for (Train train : trains.values()) {
+			for (Waggon waggon : train.getWaggons()) {
+				if (waggon.getWaggonId().equals(waggonId)) {
+					return waggon;
+				}
+			}	
+		}
+		return null;
 	}
 }

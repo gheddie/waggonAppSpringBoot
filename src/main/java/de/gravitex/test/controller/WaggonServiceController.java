@@ -1,5 +1,6 @@
 package de.gravitex.test.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import de.gravitex.test.entity.Train;
 import de.gravitex.test.entity.TrainEvent;
 import de.gravitex.test.entity.TrainState;
 import de.gravitex.test.entity.Waggon;
+import de.gravitex.test.entity.WaggonDamage;
 import de.gravitex.test.entity.WaggonManipulation;
 import de.gravitex.test.exception.TrainHandlingException;
 import de.gravitex.test.handler.TrainActionHandler;
@@ -60,7 +62,8 @@ public class WaggonServiceController {
 				break;
 			}
 			System.out.println("changeTrainState --> returning response 200 --> OK...");
-			return new ResponseEntity<String>("OK", HttpStatus.OK);
+			// do not return anything in this case --> will provoke an error!!
+			return new ResponseEntity<String>("", HttpStatus.OK);
 		} catch (TrainHandlingException e) {
 			System.out.println("changeTrainState --> returning response 500 --> INTERNAL_SERVER_ERROR...");
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -104,6 +107,14 @@ public class WaggonServiceController {
 		
 		List<Train> trains = TrainSingleton.getInstance().getTrains();
 		return new ResponseEntity<List<Train>>(trains, HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/damages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<WaggonDamage>> getWaggonDamages(@RequestParam Long waggonId) {
+		
+		return new ResponseEntity<List<WaggonDamage>>(
+				TrainSingleton.getInstance().findWaggon(waggonId).getWaggonDamages(), HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*")

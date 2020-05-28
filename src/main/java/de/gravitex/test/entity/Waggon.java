@@ -3,6 +3,8 @@ package de.gravitex.test.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.gravitex.test.util.TrainActionKey;
 import lombok.Data;
 
@@ -25,10 +27,15 @@ public class Waggon implements RailItem {
 	
 	int position;
 	
+	@JsonIgnore
 	private List<WaggonDamage> waggonDamages = new ArrayList<WaggonDamage>();
 
 	@Override
 	public TrainActionKey generateKey(String action) {
 		return TrainActionKey.blank();
+	}
+	
+	public int getDamageCount() {
+		return waggonDamages.size();
 	}
 }
