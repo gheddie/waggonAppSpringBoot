@@ -53,7 +53,7 @@ public class TrainSingleton {
 				WaggonDefinition.fromValues(new Long(20), "W203", WaggonType.AVEX, 27, 6, null),
 				WaggonDefinition.fromValues(new Long(21), "W204", WaggonType.CVEX, 0, 0, null)));
 
-		addTrain(TrainUtil.createTrain(new Long(3), TrainState.READY_TO_GO, "Train3",
+		addTrain(TrainUtil.createTrain(new Long(3), TrainState.GONE, "Train3",
 				WaggonDefinition.fromValues(new Long(22), "W300", WaggonType.AVEX, 0, 0, null),
 				WaggonDefinition.fromValues(new Long(23), "W301", WaggonType.CVEX, 0, 0, BrakeType.B3)));
 		

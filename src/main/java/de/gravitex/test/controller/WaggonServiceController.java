@@ -1,6 +1,5 @@
 package de.gravitex.test.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,10 +37,6 @@ public class WaggonServiceController {
 		});
 	}
 	
-	private static final String RESPONSE_OK = "{result: OK, message: NONE}";
-	
-	private static final String RESPONSE_FAIL = "{result: FAIL, message: NONE}";
-	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/changeTrainState", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> changeTrainState(@RequestBody TrainEvent trainEvent) {
@@ -55,10 +50,12 @@ public class WaggonServiceController {
 			case "DEPARTURE":
 				System.out.println("departing train: " + trainEvent.getTrainId());
 				train.setTrainState(TrainState.GONE);
+				System.out.println("train " + train.getTrainNumber() + " DEPARTED...");
 				break;
 			case "ARRIVAL":
 				System.out.println("arriving train: " + trainEvent.getTrainId());
 				train.setTrainState(TrainState.ARRIVED);
+				System.out.println("train " + train.getTrainNumber() + " ARRIVED...");
 				break;
 			}
 			System.out.println("changeTrainState --> returning response 200 --> OK...");
@@ -98,7 +95,7 @@ public class WaggonServiceController {
 			break;
 		}
 		
-		return new ResponseEntity<String>(RESPONSE_OK, HttpStatus.OK);
+		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
@@ -134,7 +131,7 @@ public class WaggonServiceController {
 		try {
 			instance.checkWaggon(waggon);
 			instance.getTrain(waggon.getTrainId()).getWaggons().add(waggon.getPosition(), waggon);
-			return new ResponseEntity<String>(RESPONSE_OK, HttpStatus.OK);
+			return new ResponseEntity<String>("", HttpStatus.OK);
 		} catch (TrainHandlingException e) {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
